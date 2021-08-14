@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="em_mlda_main"  pkg="mlda_ros" type="em_mlda_main.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_human_input"  pkg="mlda_ros" type="em_mlda_human_input.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_data_image"  pkg="mlda_ros" type="em_mlda_data_image.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_data_word"  pkg="mlda_ros" type="em_mlda_data_word.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_data_joint_load"  pkg="mlda_ros" type="em_mlda_data_joint_load.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_learn"  pkg="mlda_ros" type="em_mlda_learn.py"  output="screen" cwd="node" > </node>
+  <node name="em_mlda_hololens_coordinate"  pkg="mlda_ros" type="em_mlda_hololens_coordinate.py"  output="screen" cwd="node" > </node>
+   <node name="em_mlda_hololens_category_sample"  pkg="mlda_ros" type="em_mlda_hololens_category_sample.py"  output="screen" cwd="node" > </node>
+</launch>

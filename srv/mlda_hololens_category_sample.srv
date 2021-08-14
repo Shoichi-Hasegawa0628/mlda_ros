@@ -1,0 +1,6 @@
+string status
+int32 object_num
+---
+bool finish
+sensor_msgs/CompressedImage[] image_list
+string[] word_list

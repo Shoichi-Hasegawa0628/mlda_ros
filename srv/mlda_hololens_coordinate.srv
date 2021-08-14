@@ -1,0 +1,5 @@
+string status
+int32 object_number
+---
+bool finish
+geometry_msgs/Point[] coordinate

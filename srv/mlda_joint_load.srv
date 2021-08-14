@@ -1,0 +1,5 @@
+string sentence
+int32 count
+int32 joint_number
+---
+bool finish

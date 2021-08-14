@@ -1,0 +1,7 @@
+sensor_msgs/Image yolov3_image
+string status
+int32 count
+---
+bool success
+string object_word
+float64 object_word_probability

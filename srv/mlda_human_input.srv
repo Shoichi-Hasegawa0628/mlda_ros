@@ -1,0 +1,5 @@
+string status
+string word
+int32 count
+---
+bool finish
