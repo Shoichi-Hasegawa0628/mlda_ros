@@ -19,21 +19,21 @@ sys.setdefaultencoding('utf-8')
 
 #TRIALNAME = "Testno"
 # TRIALNAME = "Testor"
-TRIALNAME = "Testmr"
-NEWDATA = False # When you make the dataset, you should write True
-ESTIMATE = True # When you do the experiment, you should write True
+#TRIALNAME = "Testmr"
+#NEWDATA = False # When you make the dataset, you should write True
+#ESTIMATE = True # When you do the experiment, you should write True
 
 ITERATION = 100
-CATEGORYNUM = 6
-CATEGORYEXAMPLENUM = 3
-IMAGE_NUM = 4
+CATEGORYNUM = 3
+#CATEGORYEXAMPLENUM = 3
+#IMAGE_NUM = 4
 ALPHA = 1.0
 BETA = 1.0
 
-IMAGE_TOPIC = "/sciurus17/camera/color/image_raw"
-WORD_TOPIC="/sciurus17/em_mlda/word"
-JOINT_LOAD_TOPIC="/sciurus17/controller2/joint_states"
-JOINT_LOAD_SAVE_TOPIC="/sciurus17/em_mlda/joint_states_save"
+#IMAGE_TOPIC = "/sciurus17/camera/color/image_raw"
+#WORD_TOPIC="/sciurus17/em_mlda/word"
+#JOINT_LOAD_TOPIC="/sciurus17/controller2/joint_states"
+#JOINT_LOAD_SAVE_TOPIC="/sciurus17/em_mlda/joint_states_save"
 
-DATASET_FOLDER = "../training_data/"
-DATA_FOLDER = DATASET_FOLDER + TRIALNAME
+#DATASET_FOLDER = "../training_data/"
+#DATA_FOLDER = DATASET_FOLDER + TRIALNAME

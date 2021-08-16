@@ -20,15 +20,18 @@ class MLDAMain():
     
 
     def judge_target_object_mlda(self, msg):
-        if msg.status == "estimate":                                                        # 物体の画像から物体の単語を予測
+        if msg.status == "estimate":
+            print("Start")                                                        # 物体の画像から物体の単語を予測
             self.mlda_image.image_server(msg)
             self.mlda_learn.mlda_server(msg)
-            object_word, object_word_probability = self.mlda_word.word_server(msg)
+            self.mlda_word.word_server(msg)
  
-        else:                                                                               # データセットからパラメータを学習
-            pass
-        
-        return SendImageMLDAResponse(success = True, object_word, object_word_probability)
+        #else:                                                                               # データセットからパラメータを学習
+        #    pass
+
+        print ("Finished!!!")
+        #return SendImageMLDAResponse(success = True, object_word = "apple", object_word_probability = 0.1)
+       
 
 
 if __name__ == "__main__":

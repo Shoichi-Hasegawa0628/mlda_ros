@@ -21,27 +21,34 @@ class GetImageFeature():
         rospy.loginfo("Ready mlda_image_server...")
         
     
-    def calc_feature(self, filename):
-        img = cv2.imread(filename, 0)
+    def calc_feature(self, img):
+        #img = cv2.imread(filename, 0)
         kp, discriptor = self.detector.detectAndCompute(img, None)
-        extraceted_img = cv2.drawKeypoints(img, kp, None, flags=4)
+        #extraceted_img = cv2.drawKeypoints(img, kp, None, flags=4)
         # cv2.imwrite(filename.replace('.jpg', '') + "ex.jpg",extraceted_img)
+        print(len(discriptor))
         return np.array(discriptor, dtype=np.float32)
 
 
     def make_codebook(self, images, code_book_size, save_name):
         bow_trainer = cv2.BOWKMeansTrainer(code_book_size)
 
-        for img in images:
-            f = self.calc_feature(img)
-            bow_trainer.add(f)
+        #for img in images:
+        #    f = self.calc_feature(img)
+        #    bow_trainer.add(f)
 
+        f = self.calc_feature(images)
+        print(f)
+        bow_trainer.add(f)
+
+        print("Start")
         code_book = bow_trainer.cluster()
-        np.savetxt("../data/bof" + "/" + save_name, code_book)                                        
+        print("Start")
+        np.savetxt("./data/bof/" + save_name, code_book)                                        
     
 
     def make_bof(self, code_book_name, images, hist_name, estimate_mode):
-        code_book = np.loadtxt("../data/bof" + "/" + code_book_name, dtype=np.float32)                
+        code_book = np.loadtxt("./data/bof" + "/" + code_book_name, dtype=np.float32)                
         self.knn.train(code_book, cv2.ml.ROW_SAMPLE, np.arange(len(code_book), dtype=np.float32))
 
         hists = []
@@ -79,14 +86,14 @@ class GetImageFeature():
         """
             
 
-    def image_server(self, req):                                
+    def image_server(self, req):                                  
         if req.status == "learn":
             pass
 
         elif req.status == "estimate":
             img = self.image_callback(req.yolov3_image)
             self.make_codebook(img, 50, "codebook.txt")                                        
-            self.make_bof("codebook.txt", img, "histgram_v.txt", True)                         
+            self.make_bof("codebook.txt", img, "./data/bof/histgram_v.txt", True)                         
 
 
     def image_callback(self, image):
@@ -102,4 +109,4 @@ class GetImageFeature():
 if __name__ == "__main__":
     rospy.init_node('mlda_image_server')
     GetImageFeature()
-    rospy.spin()
+    #rospy.spin()

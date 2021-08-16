@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+# MLDAのメインコード, 画像分布・単語分布・物体カテゴリ分布を計算する
 
 from __init__ import *
 import pylab
@@ -9,17 +10,14 @@ import codecs
 
 
 class MLDA():
-    def load_model(self, estimate_mode):
-        with open(DATA_FOLDER + "/learn_result/model.pickle", "rb") as f:
-            a, b, c, d, e = pickle.load(f)
 
-        if estimate_mode:
-            return b, c
-        else:
-            return a, b, c, d, e
+    def load_model( self, estimate_mode):
+        with open("./data/learn_result/model.pickle", "rb") as f:
+            a,b = pickle.load( f )
+        return a,b
 
     def save_model(self, save_dir, n_dz, n_mzw, n_mz, docs_mdn, topics_mdn, M, dims):
-        rospy.loginfo("[Service em_mlda/learn] Savinng the laerning result.")
+        rospy.loginfo("Savinng the laerning result.")
 
         try:
             os.mkdir(save_dir)
@@ -40,7 +38,7 @@ class MLDA():
         with open(os.path.join(save_dir, "model.pickle"), "wb") as f:
             pickle.dump([n_dz, n_mzw, n_mz, docs_mdn, topics_mdn], f)
 
-        rospy.loginfo("[Service em_mlda/learn] Finish the saving the model.")
+        rospy.loginfo("Finish the saving the model.")
 
     # 尤度計算
     def calc_liklihood(self, target_modality_num, n_dz, n_zw, n_z, K, V):
@@ -137,7 +135,7 @@ class MLDA():
         pylab.pause(0.01)
 
     def mlda_learn(self, save_dir="model", estimate_mode=False):
-        rospy.loginfo("[Service em_mlda/learn] start to learning")
+        rospy.loginfo("start to learning")
 
         pylab.ion()  # インタラクティブモード(コンソール入力がいつでもできる)
 
@@ -234,6 +232,7 @@ class MLDA():
             # if True:
                 print("Iteration ", It + 1)
 
+                """
                 print u'対数尤度：'
                 print(liks[-1])
 
@@ -242,12 +241,15 @@ class MLDA():
                 print(doc_dopics)
 
                 print("---------------------")
+                """
 
         self.save_model(save_dir, n_dz, n_mzw, n_mz, docs_mdn,
                         topics_mdn, Modality_num, dimension_list)
 
+
     def mlda_server(self, req):
         if req.status == "learn":
+            """
             self.data = [np.loadtxt(DATA_FOLDER + "/histogram_image.txt", dtype=np.int32),
                          np.loadtxt(DATA_FOLDER +
                                     "/histogram_hardness.txt", dtype=np.int32),
@@ -262,29 +264,27 @@ class MLDA():
                 rospy.loginfo(
                     "[Service em_mlda/learn] Defalut learning mode start")
                 self.mlda_learn(DATA_FOLDER + "/learn_result", False)
+            """
+            pass
 
-        elif req.status == "estimate":
-            self.data = [np.loadtxt(DATA_FOLDER + "/unknown_histogram_image" + str(req.count) + ".txt", dtype=np.int32),
-                         np.loadtxt(DATA_FOLDER + "/unknown_histogram_hardness" +
-                                    str(req.count) + ".txt", dtype=np.int32),
-                         np.loadtxt(DATA_FOLDER + "/unknown_histogram_weight" +
-                                    str(req.count) + ".txt", dtype=np.int32),
+        elif req.status == "estimate":  ######パスの編集が必要
+            self.data = [np.loadtxt("./data/bof" + "/histgram_v.txt", dtype=np.int32),
                          None]
 
-            rospy.loginfo(
-                "[Service em_mlda/learn] Estimate unknown object mode start")
-            self.mlda_learn(DATA_FOLDER + "/estimate_result" +
-                            str(req.count), True)
+            rospy.loginfo("Estimate unknown object mode start")
+            self.mlda_learn("./data/estimate_result", True)        ######パスの編集が必要
 
         else:
-            rospy.logwarn(
-                "[Service em_mlda/learn] command not found: %s", req.status)
+            #rospy.logwarn(
+            #    "[Service em_mlda/learn] command not found: %s", req.status)
+            pass
 
-        return mlda_learnResponse(True)
+        #return mlda_learnResponse(True)
+
 
     def __init__(self):
-        s = rospy.Service('em_mlda/learn', mlda_learn, self.mlda_server)
-        rospy.loginfo("[Service em_mlda/learn] Ready em_mlda/learn")
+        #s = rospy.Service('em_mlda/learn', mlda_learn, self.mlda_server)
+        rospy.loginfo("Ready learn")
 
         self.data = []
 
@@ -294,4 +294,4 @@ if __name__ == '__main__':
     sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
     rospy.init_node('em_mlda_learn_server')
     MLDA()
-    rospy.spin()
+    #rospy.spin()
